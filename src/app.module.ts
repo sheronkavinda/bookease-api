@@ -26,7 +26,7 @@ import { BookingsModule } from './bookings/bookings.module';
         database: configService.get<string>('DB_NAME'),
 
         autoLoadEntities: true,
-        synchronize: true,
+        synchronize: false,
       }),
     }),
 
