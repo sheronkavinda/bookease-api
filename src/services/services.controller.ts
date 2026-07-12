@@ -26,9 +26,7 @@ import { ServicesService } from './services.service';
 @ApiTags('Services')
 @Controller('services')
 export class ServicesController {
-  constructor(
-    private readonly servicesService: ServicesService,
-  ) {}
+  constructor(private readonly servicesService: ServicesService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)

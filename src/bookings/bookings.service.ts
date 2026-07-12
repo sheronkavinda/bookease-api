@@ -21,9 +21,7 @@ export class BookingsService {
     private readonly servicesService: ServicesService,
   ) {}
 
-  async create(
-    createBookingDto: CreateBookingDto,
-  ): Promise<Booking> {
+  async create(createBookingDto: CreateBookingDto): Promise<Booking> {
     const service = await this.servicesService.findOne(
       createBookingDto.serviceId,
     );
@@ -44,10 +42,7 @@ export class BookingsService {
       },
     });
 
-    if (
-      existingBooking &&
-      existingBooking.status !== BookingStatus.CANCELLED
-    ) {
+    if (existingBooking && existingBooking.status !== BookingStatus.CANCELLED) {
       throw new ConflictException(
         'This service is already booked for the selected date and time',
       );
@@ -56,9 +51,7 @@ export class BookingsService {
     const booking = this.bookingsRepository.create({
       ...createBookingDto,
       customerName: createBookingDto.customerName.trim(),
-      customerEmail: createBookingDto.customerEmail
-        .toLowerCase()
-        .trim(),
+      customerEmail: createBookingDto.customerEmail.toLowerCase().trim(),
       customerPhone: createBookingDto.customerPhone.trim(),
       notes: createBookingDto.notes?.trim(),
       status: BookingStatus.PENDING,
@@ -123,9 +116,7 @@ export class BookingsService {
     });
 
     if (!booking) {
-      throw new NotFoundException(
-        `Booking with ID ${id} not found`,
-      );
+      throw new NotFoundException(`Booking with ID ${id} not found`);
     }
 
     return booking;
@@ -156,9 +147,7 @@ export class BookingsService {
     const booking = await this.findOne(id);
 
     if (booking.status === BookingStatus.COMPLETED) {
-      throw new BadRequestException(
-        'Completed bookings cannot be cancelled',
-      );
+      throw new BadRequestException('Completed bookings cannot be cancelled');
     }
 
     booking.status = BookingStatus.CANCELLED;
@@ -173,9 +162,7 @@ export class BookingsService {
     today.setHours(0, 0, 0, 0);
 
     if (selectedDate < today) {
-      throw new BadRequestException(
-        'Booking date cannot be in the past',
-      );
+      throw new BadRequestException('Booking date cannot be in the past');
     }
   }
 }

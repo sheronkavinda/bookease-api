@@ -25,9 +25,7 @@ import { BookingsService } from './bookings.service';
 @ApiTags('Bookings')
 @Controller('bookings')
 export class BookingsController {
-  constructor(
-    private readonly bookingsService: BookingsService,
-  ) {}
+  constructor(private readonly bookingsService: BookingsService) {}
 
   @Post()
   @ApiCreatedResponse({
@@ -73,10 +71,7 @@ export class BookingsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateBookingStatusDto: UpdateBookingStatusDto,
   ) {
-    return this.bookingsService.updateStatus(
-      id,
-      updateBookingStatusDto,
-    );
+    return this.bookingsService.updateStatus(id, updateBookingStatusDto);
   }
 
   @Patch(':id/cancel')
@@ -91,7 +86,8 @@ export class BookingsController {
   cancel(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.bookingsService.cancel(id);
   }
-}import {
+}
+import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,

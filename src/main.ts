@@ -25,17 +25,12 @@ async function bootstrap() {
   // Swagger configuration
   const swaggerConfig = new DocumentBuilder()
     .setTitle('BookEase API')
-    .setDescription(
-      'REST API for managing services and customer bookings',
-    )
+    .setDescription('REST API for managing services and customer bookings')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
 
-  const swaggerDocument = SwaggerModule.createDocument(
-    app,
-    swaggerConfig,
-  );
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
 
   SwaggerModule.setup('api/docs', app, swaggerDocument);
 
@@ -43,13 +38,9 @@ async function bootstrap() {
 
   await app.listen(port);
 
-  console.log(
-    `BookEase API is running on http://localhost:${port}/api`,
-  );
+  console.log(`BookEase API is running on http://localhost:${port}/api`);
 
-  console.log(
-    `Swagger documentation: http://localhost:${port}/api/docs`,
-  );
+  console.log(`Swagger documentation: http://localhost:${port}/api/docs`);
 }
 
 bootstrap();

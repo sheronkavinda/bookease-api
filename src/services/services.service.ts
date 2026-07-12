@@ -12,9 +12,7 @@ export class ServicesService {
     private readonly servicesRepository: Repository<ServiceEntity>,
   ) {}
 
-  async create(
-    createServiceDto: CreateServiceDto,
-  ): Promise<ServiceEntity> {
+  async create(createServiceDto: CreateServiceDto): Promise<ServiceEntity> {
     const service = this.servicesRepository.create(createServiceDto);
     return this.servicesRepository.save(service);
   }
