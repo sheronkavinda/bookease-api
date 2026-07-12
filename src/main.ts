@@ -2,14 +2,15 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Every endpoint starts with /api
+  // All API endpoints begin with /api
   app.setGlobalPrefix('api');
 
-  // Validate all incoming request data
+  // Global request validation
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -17,6 +18,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // Global error response formatting
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // Swagger configuration
   const swaggerConfig = new DocumentBuilder()
@@ -36,10 +40,16 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, swaggerDocument);
 
   const port = process.env.PORT ?? 3000;
+
   await app.listen(port);
 
-  console.log(`BookEase API is running on http://localhost:${port}/api`);
-  console.log(`Swagger documentation: http://localhost:${port}/api/docs`);
+  console.log(
+    `BookEase API is running on http://localhost:${port}/api`,
+  );
+
+  console.log(
+    `Swagger documentation: http://localhost:${port}/api/docs`,
+  );
 }
 
 bootstrap();
